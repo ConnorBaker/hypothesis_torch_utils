@@ -33,4 +33,4 @@ jobs:
       - run: python3 -m pip install pip --upgrade
       - run: python3 -m pip install --pre --extra-index-url https://download.pytorch.org/whl/nightly/cpu '.[typecheck]'
       - run: pyright ./hypothesis_torch_utils
-      - run: pyright --verifytypes hypothesis_torch_utils --ignoreexternal
+      - run: pyright --verifytypes hypothesis_torch_utils --ignoreexternal --pythonversion 3.10 --pythonplatform Linux --verbose
