@@ -1,4 +1,4 @@
-from typing import NewType, cast
+from typing import NewType
 
 import torch
 from hypothesis import strategies as st
@@ -67,9 +67,10 @@ def nchw_tensors(
     Returns a tensor with the given dtype and shape. If either is None, it will be sampled.
 
     Args:
-        shape: The shape of the tensor. If None, a random shape will be generated.
+        shape: The shape of the tensor. If None, it will be sampled.
         dtype: The dtype of the tensor. If None, it will be sampled.
         device: The device of the tensor. If None, it will be sampled.
+        memory_format: The memory format of the tensor. If None, it will be sampled.
 
     Returns:
         A tensor with the given dtype and shape on the given device.
@@ -137,7 +138,7 @@ def nchw_tensors_with_same_shape_and_device(
         nchw_tensors(
             dtype=t1.dtype,
             device=t1.device,
-            shape=NCHWShape(cast(tuple[int, int, int, int], t1.shape)),
+            shape=NCHWShape(t1.shape),  # type: ignore[arg-type]
             memory_format=memory_format,
         )
     )

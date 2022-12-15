@@ -51,7 +51,7 @@ def chw_tensors(
     Returns a tensor with the given dtype and shape. If either is None, it will be sampled.
 
     Args:
-        shape: The shape of the tensor. If None, a random shape will be generated.
+        shape: The shape of the tensor. If None, it will be sampled.
         dtype: The dtype of the tensor. If None, it will be sampled.
         device: The device of the tensor. If None, it will be sampled.
 

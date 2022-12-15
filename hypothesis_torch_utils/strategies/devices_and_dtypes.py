@@ -8,6 +8,8 @@ from hypothesis_torch_utils.strategies.dtypes import torch_real_dtypes
 
 
 class DeviceAndDType(TypedDict):
+    """A dictionary containing a device and dtype."""
+
     device: torch.device
     dtype: torch.dtype
 
@@ -20,6 +22,17 @@ def devices_and_dtypes(
     device: None | str | torch.device | st.SearchStrategy[torch.device] = None,
     dtype: None | torch.dtype | st.SearchStrategy[torch.dtype] = None,
 ) -> DeviceAndDType:
+    """
+    Returns a dictionary containing a device and dtype. Ensures that the dtype is supported on the
+    device.
+
+    Args:
+        device: The device of the tensor. If None, it will be sampled.
+        dtype: The dtype of the tensor. If None, it will be sampled.
+
+    Returns:
+        A dictionary containing a device and dtype.
+    """
     if device is None:
         device = draw(torch_devices)
     elif isinstance(device, str):
