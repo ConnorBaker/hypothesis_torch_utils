@@ -15,7 +15,7 @@ else:
         st.integers(1, 16), st.just(3), st.integers(32, 256), st.integers(32, 256)
     )
 
-_N3HW_TENSORS = partial(
+sized_n3hw_tensors = partial(
     nchw_tensors,
     shape=shape_strat
     # Ensure all images have a height and width divisible by four

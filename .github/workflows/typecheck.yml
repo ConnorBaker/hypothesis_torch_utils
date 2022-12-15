@@ -19,7 +19,7 @@ jobs:
           cache-dependency-path: "**/pyproject.toml"
       - run: python3 -m pip install pip --upgrade
       - run: python3 -m pip install --pre --extra-index-url https://download.pytorch.org/whl/nightly/cpu '.[typecheck]'
-      - run: mypy hypothesis_torch_utils
+      - run: mypy ./hypothesis_torch_utils
 
   pyright:
     runs-on: ubuntu-22.04
@@ -32,4 +32,4 @@ jobs:
           cache-dependency-path: "**/pyproject.toml"
       - run: python3 -m pip install pip --upgrade
       - run: python3 -m pip install --pre --extra-index-url https://download.pytorch.org/whl/nightly/cpu '.[typecheck]'
-      - run: pyright hypothesis_torch_utils
+      - run: pyright ./hypothesis_torch_utils

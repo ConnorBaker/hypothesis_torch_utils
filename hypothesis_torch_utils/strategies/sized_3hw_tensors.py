@@ -11,7 +11,7 @@ if settings._current_profile == "ci":  # type: ignore
 else:
     shape_strat = st.tuples(st.just(3), st.integers(32, 256), st.integers(32, 256))
 
-_3HW_TENSORS = partial(
+sized_3hw_tensors = partial(
     chw_tensors,
     shape=shape_strat
     # Ensure all images have a height and width divisible by four
