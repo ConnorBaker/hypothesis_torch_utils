@@ -37,10 +37,6 @@ def devices_and_dtypes(
         dtype_strat = dtype
 
     # Filter out unsupported dtypes
-    if device.type == "mps":
-        # MPS doesn't support bfloat16 or float64
-        dtype_strat = dtype_strat.filter(lambda t: t not in [torch.bfloat16, torch.float64])
-
     if device.type == "cpu":
         # Most CPUs don't support float16
         dtype_strat = dtype_strat.filter(lambda t: t != torch.float16)
