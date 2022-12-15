@@ -16,6 +16,10 @@ dependencies = ["torch==2.0.0.*", "hypothesis==6.61.0"]
 lint = ["black==22.12.0", "flake8==6.0.0", "isort==5.11.2"]
 typecheck = ["pyright==1.1.284", "mypy==0.991"]
 
+[tool.setuptools]
+include-package-data = true
+package-data = { hypothesis_torch_utils = ["py.typed"] }
+
 [tool.black]
 line-length = 99
 target-version = ['py310']
