@@ -1,4 +1,4 @@
-from typing import NewType
+from typing import NewType, cast
 
 import torch
 from hypothesis import strategies as st
@@ -137,7 +137,7 @@ def nchw_tensors_with_same_shape_and_device(
         nchw_tensors(
             dtype=t1.dtype,
             device=t1.device,
-            shape=NCHWShape(t1.shape),
+            shape=NCHWShape(cast(tuple[int, int, int, int], t1.shape)),
             memory_format=memory_format,
         )
     )

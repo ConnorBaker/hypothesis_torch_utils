@@ -33,7 +33,7 @@ def devices_and_dtypes(
         dtype_strat = torch_real_dtypes
     elif isinstance(dtype, torch.dtype):
         dtype_strat = st.just(dtype)
-    elif isinstance(dtype, st.SearchStrategy):
+    else:
         dtype_strat = dtype
 
     # Filter out unsupported dtypes

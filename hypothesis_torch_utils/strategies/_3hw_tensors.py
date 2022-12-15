@@ -6,7 +6,7 @@ from hypothesis import strategies as st
 from hypothesis_torch_utils.strategies.chw_tensors import CHWShape, chw_tensors
 from hypothesis_torch_utils.strategies.dtypes import torch_float_dtypes
 
-if settings._current_profile == "ci":
+if settings._current_profile == "ci":  # type: ignore
     shape_strat = st.tuples(st.just(3), st.integers(32, 1024), st.integers(32, 1024))
 else:
     shape_strat = st.tuples(st.just(3), st.integers(32, 256), st.integers(32, 256))

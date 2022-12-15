@@ -8,7 +8,7 @@ description = "Hypothesis utilities for PyTorch"
 authors = [{ name = "Connor Baker", email = "connorbaker01@gmail.com" }]
 maintainers = [{ name = "Connor Baker", email = "connorbaker01@gmail.com" }]
 readme = "README.md"
-urls = { homepage = "https://github.com/connorbaker/bsrt" }
+urls = { homepage = "https://github.com/ConnorBaker/hypothesis_torch_utils" }
 requires-python = ">=3.10"
 dependencies = [
     "torch==2.0.0.*",
@@ -34,26 +34,10 @@ packages = ["hypothesis_torch_utils"]
 [tool.mypy]
 python_version = "3.10"
 platform = "linux"
-# TODO: Fix these
-disable_error_code = [
-    "arg-type",
-    "assignment",
-    "attr-defined",
-    "empty-body",
-    "import",
-    "index",
-    "misc",
-    "no-redef",
-    "operator",
-    "override",
-]
+strict = true
 
 
 [tool.pyright]
-# TODO: Enable strict typechecking.
-include = ["hypothesis_torch_utils"]
-exclude = ["**/__pycache__"]
-reportMissingImports = true
-reportMissingTypeStubs = false
 pythonVersion = "3.10"
 pythonPlatform = "Linux"
+typeCheckingMode = "strict"
