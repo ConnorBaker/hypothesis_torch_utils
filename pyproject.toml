@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-lint = ["black==22.12.0", "flake8==6.0.0", "isort==5.11.1"]
+lint = ["black==22.12.0", "flake8==6.0.0", "isort==5.11.2"]
 typecheck = ["pyright==1.1.283", "mypy==0.991"]
 
 [tool.black]
