@@ -18,6 +18,7 @@ typecheck = ["pyright==1.1.284", "mypy==0.991"]
 
 [tool.setuptools]
 include-package-data = true
+package-dir = { hypothesis_torch_utils = "hypothesis_torch_utils" }
 package-data = { hypothesis_torch_utils = ["py.typed"] }
 
 [tool.black]
