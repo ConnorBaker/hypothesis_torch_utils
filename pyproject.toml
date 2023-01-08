@@ -10,11 +10,11 @@ maintainers = [{ name = "Connor Baker", email = "connorbaker01@gmail.com" }]
 readme = "README.md"
 urls = { homepage = "https://github.com/ConnorBaker/hypothesis_torch_utils" }
 requires-python = ">=3.10"
-dependencies = ["torch==2.0.0.*", "hypothesis==6.61.0"]
+dependencies = ["torch>=1.8", "hypothesis>=6"]
 
 [project.optional-dependencies]
-lint = ["black==22.12.0", "flake8==6.0.0", "isort==5.11.4"]
-typecheck = ["pyright==1.1.287", "mypy==0.991"]
+lint = ["black>=22.12.0", "flake8>=6.0.0", "isort>=5.11.4"]
+typecheck = ["pyright>=1.1.287", "mypy>=0.991"]
 
 [tool.setuptools]
 include-package-data = true
