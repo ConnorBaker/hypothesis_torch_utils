@@ -1,17 +1,14 @@
 {
-  pkgs,
-  stdenv,
-  lib,
-  autoPatchelfHook,
-  python,
-  fetchFromGitHub,
   buildPythonPackage,
-  # Propagated build inputs
-  torch,
+  lib,
+  # propagatedBuildInputs
   hypothesis,
+  torch,
+  # optional-dependencies.lint
   black,
   flake8,
   isort,
+  # optional-dependencies.typecheck
   pyright,
   mypy,
 }:
@@ -23,8 +20,8 @@ buildPythonPackage {
   src = ../.;
 
   propagatedBuildInputs = [
-    torch
     hypothesis
+    torch
   ];
 
   doCheck = false;
@@ -39,4 +36,11 @@ buildPythonPackage {
   };
 
   pythonImportsCheck = ["hypothesis_torch_utils"];
+
+  meta = with lib; {
+    description = "Utilities for generating PyTorch data with Hypothesis";
+    homepage = "https://github.com/ConnorBaker/hypothesis_torch_utils";
+    license = licenses.asl20;
+    maintainers = with maintainers; [connorbaker];
+  };
 }
