@@ -1,73 +1,76 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/master";
+    nixGL = {
+      url = "github:guibou/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
   nixConfig = {
-    # Add the CUDA maintainer's cache and my cache to the binary cache list.
+    # Add the CUDA maintainer's cache
     extra-substituters = [
-      "https://cache.nixos.org/"
       "https://nix-community.cachix.org"
       "https://cuda-maintainers.cachix.org"
-      "https://tiny-cuda-nn.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-      "tiny-cuda-nn.cachix.org-1:XFknw1My0ep3nR307ytC07jgZmEo/O0bg9PdqYZg29Q="
     ];
   };
 
   outputs = {
     self,
     nixpkgs,
+    nixGL,
   }: let
     system = "x86_64-linux";
+    nvidiaDriver = {
+      version = "530.30.02";
+      sha256 = "sha256-R/3bvXoiumYZI9vObn9R7sVN9oBQxAbMBJDDv77eeWM=";
+    };
+
     overlay = import ./nix/extensions/hypothesis_torch_utils.nix;
     pkgs = import nixpkgs {
       inherit system;
       config = {
         allowUnfree = true;
         cudaSupport = true;
-        cudaCapabilities = ["8.0"];
+        cudaCapabilities = ["8.6"];
         cudaForwardCompat = true;
       };
-      overlays = [overlay];
+      overlays = [
+        (final: prev: {
+          python3 = prev.python310;
+          python3Packages = prev.python310Packages;
+          cudaPackages = prev.cudaPackages_11_8;
+        })
+        overlay
+        nixGL.overlays.default
+      ];
     };
 
-    inherit (pkgs.cudaPackages) cudatoolkit;
-    inherit (pkgs) python310;
-    inherit (python310.pkgs) hypothesis_torch_utils;
+    inherit (pkgs) python3 python3Packages nixgl;
+    inherit (python3Packages) hypothesis_torch_utils;
+    inherit (nixgl.nvidiaPackages nvidiaDriver) nixGLNvidia;
   in {
     overlays.default = overlay;
-    packages.${system}.default = pkgs.mkShell {
-      buildInputs = [
-        cudatoolkit
-        # TODO: Can't use python3.withPackages because it doesn't work with overlays?
-        python310
-        hypothesis_torch_utils
-      ];
+    devShells.${system}.default = pkgs.mkShell {
+      packages =
+        [
+          python3
+          hypothesis_torch_utils.propagatedBuildInputs
+          nixGLNvidia
+        ]
+        ++ (
+          with hypothesis_torch_utils.passthru.optional-dependencies;
+            lint ++ typecheck
+        );
 
+      # Make an alias for python so it's wrapped with nixGLNvidia.
       shellHook = ''
-        export CUDA_HOME=${cudatoolkit}
-        export PATH=$CUDA_HOME/bin:$PATH
-        if [ ! -f /run/opengl-driver/lib/libcuda.so.1 ]; then
-          echo
-          echo "Could not find /run/opengl-driver/lib/libcuda.so.1."
-          echo
-          echo "You have at least three options:"
-          echo
-          echo "1. Use nixGL (https://github.com/guibou/nixGL)"
-          echo "2. Add libcuda.so.1 to your LD_PRELOAD environment variable."
-          echo "3. Symlink libcuda.so.1 to /run/opengl-driver/lib/libcuda.so.1."
-          echo
-          echo "   This is the easiest option, but it requires root."
-          echo "   You can do this by running:"
-          echo
-          echo "   sudo mkdir -p /run/opengl-driver/lib"
-          echo "   sudo ln -s /usr/lib64/libcuda.so.1 /run/opengl-driver/lib/libcuda.so.1"
-          echo
-          echo "Continuing to the shell, but be aware that CUDA might not work."
-          echo
-        fi
+        alias python3="${nixGLNvidia.name} python3"
+        alias python="${nixGLNvidia.name} python3"
       '';
     };
     formatter.${system} = pkgs.alejandra;

@@ -17,23 +17,16 @@
 }:
 buildPythonPackage {
   pname = "hypothesis_torch_utils";
-  version = "1.7";
+  version = "0.1.0";
   format = "pyproject";
 
-  src = fetchFromGitHub {
-    owner = "ConnorBaker";
-    repo = "hypothesis_torch_utils";
-    rev = "6a148268ee3f384c67f2f3cd15333e2b836c715b";
-    hash = "sha256-dPjgSeMGCIXgMO4Oulywa55jJOeXkgBpeqDzl5FG4Dw=";
-  };
+  src = ../.;
 
   propagatedBuildInputs = [
     torch
     hypothesis
   ];
 
-  # NOTE: We cannot use pythonImportsCheck for this module because it requires CUDA to be
-  #   available at the time of import.
   doCheck = false;
 
   passthru.optional-dependencies = {
