@@ -8,9 +8,9 @@ torch_int_dtypes: st.SearchStrategy[torch.dtype] = st.sampled_from(
 torch_float_dtypes: st.SearchStrategy[torch.dtype] = st.sampled_from(
     [torch.bfloat16, torch.float16, torch.float32, torch.float64]
 )
-torch_real_dtypes: st.SearchStrategy[torch.dtype] = st.sampled_from(
-    [torch_int_dtypes, torch_float_dtypes]
-).flatmap(lambda x: x)
+torch_real_dtypes: st.SearchStrategy[torch.dtype] = st.sampled_from([torch_int_dtypes, torch_float_dtypes]).flatmap(
+    lambda x: x
+)
 torch_complex_dtypes: st.SearchStrategy[torch.dtype] = st.sampled_from(
     [torch.complex32, torch.complex64, torch.complex128]
 )
