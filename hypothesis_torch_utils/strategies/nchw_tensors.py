@@ -51,7 +51,7 @@ def nchw_shapes(
             max_width=max_width,
         )
     )
-    return NCHWShape((batch, *chw_shape))
+    return NCHWShape((batch, *chw_shape))  # type: ignore
 
 
 @st.composite

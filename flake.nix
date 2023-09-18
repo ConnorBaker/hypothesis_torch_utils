@@ -34,19 +34,13 @@
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} ({flake-parts-lib, ...}: let
-      flakeModules.default = import ./flake-module.nix;
-    in {
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
       imports = [
         inputs.treefmt-nix.flakeModule
         inputs.pre-commit-hooks-nix.flakeModule
-        flakeModules.default
+        ./nix
       ];
-
-      flake = {
-        inherit flakeModules;
-      };
 
       perSystem = {
         config,
@@ -107,5 +101,5 @@
           };
         };
       };
-    });
+    };
 }

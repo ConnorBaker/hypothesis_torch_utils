@@ -35,6 +35,7 @@ line-length = 120
 python_version = "3.10"
 platform = "linux"
 strict = true
+warn_unused_ignores = false # Pyright catches different things than mypy
 
 [tool.pyright]
 pythonVersion = "3.10"
