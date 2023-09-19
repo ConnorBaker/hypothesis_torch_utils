@@ -28,4 +28,4 @@ jobs:
             cudaForwardCompat = false;
           }
           EOF
-      - run: nix flake check --impure
+      - run: nix flake check --impure --accept-flake-config
