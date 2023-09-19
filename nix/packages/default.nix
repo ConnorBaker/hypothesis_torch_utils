@@ -1,12 +1,7 @@
 {
-  perSystem = {
-    config,
-    pkgs,
-    ...
-  }: {
-    overlayAttrs = {
-      inherit (config.packages) hypothesis_torch_utils;
+  perSystem = {pkgs, ...}: {
+    packages = {
+      inherit (pkgs.python3Packages) hypothesis_torch_utils;
     };
-    packages.hypothesis_torch_utils = pkgs.python3Packages.callPackage ./hypothesis_torch_utils.nix {};
   };
 }
